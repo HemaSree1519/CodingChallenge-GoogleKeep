@@ -14,7 +14,7 @@ export default class Index extends Component {
     }
 
     onWriteToggle = () => {
-            this.setState({isWritingNote: !this.state.isWritingNote, writingNoteTitle: '', writingNoteContent: ''})
+        this.setState({isWritingNote: !this.state.isWritingNote, writingNoteTitle: '', writingNoteContent: ''})
     };
     onWriteNoteTitle = (writingNoteTitle) => {
         this.setState({writingNoteTitle: writingNoteTitle.target.value})
@@ -22,6 +22,7 @@ export default class Index extends Component {
     onWriteNoteContent = (writeNoteContent) => {
         this.setState({writingNoteContent: writeNoteContent.target.value})
     };
+
     render() {
         const props = {
             writingNoteTitle: this.state.writingNoteTitle,
