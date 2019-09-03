@@ -14,7 +14,7 @@ export default class WriteNote extends Component{
                        onChange={this.props.childProps.onWriteNoteContent}
                 />
                 <div className="footer-container">
-                    <Button name="close" className="footer-button">Close</Button>
+                    <Button name="close" className="footer-button" onClick={() => this.props.childProps.onCloseNewNote()}>Close</Button>
                 </div>
             </Card>
         )

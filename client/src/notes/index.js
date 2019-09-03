@@ -7,6 +7,7 @@ export default class Index extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            notes: [],
             isWritingNote: false,
             writingNoteTitle: '',
             writingNoteContent: ''
@@ -22,6 +23,21 @@ export default class Index extends Component {
     onWriteNoteContent = (writeNoteContent) => {
         this.setState({writingNoteContent: writeNoteContent.target.value})
     };
+    onCloseNewNote = () => {
+        if (this.state.writingNoteTitle !== '' || this.state.writingNoteContent !== '') {
+            const note = {
+                "title": this.state.writingNoteTitle,
+                "content": this.state.writingNoteContent
+            };
+            let temp = this.state.notes;
+            temp.push(note);
+            this.setState({
+                notes: temp
+            })
+            console.log(this.state.notes)
+        }
+        this.onWriteToggle();
+    };
 
     render() {
         const props = {
@@ -29,7 +45,8 @@ export default class Index extends Component {
             writingNoteContent: this.state.writingNoteContent,
             onWriteNoteTitle: this.onWriteNoteTitle,
             onWriteNoteContent: this.onWriteNoteContent,
-            onWriteToggle: this.onWriteToggle
+            onWriteToggle: this.onWriteToggle,
+            onCloseNewNote: this.onCloseNewNote
         };
         return (
             <div className="dash-board">
