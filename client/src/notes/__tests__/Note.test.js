@@ -1,5 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
+import Note from "../components/Note";
 
 describe('Notes', () => {
     let wrapper;
