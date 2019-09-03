@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
+import Index from "./notes";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-          <h2>Welcome to Google Keep</h2>
-      </div>
+        <Index/>
     );
   }
 }

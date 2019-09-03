@@ -1,0 +1,12 @@
+.dash-board .write-note {
+    padding: 10px 0;
+    text-align: center;
+    align-items: center;
+    width: 50%;
+    margin: 50px auto;
+}
+.note-input {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.20);
+    padding:15px;
+    text-align:left;
+}
