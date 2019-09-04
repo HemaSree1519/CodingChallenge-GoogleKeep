@@ -2,10 +2,6 @@ package com.googlekeep.googlekeep.service;
 
 import com.googlekeep.googlekeep.model.User;
 import com.googlekeep.googlekeep.repository.UserRepository;
-import com.noteSaver.notesaver.exception.DuplicateEntryException;
-import com.noteSaver.notesaver.exception.ResourceNotFoundException;
-import com.noteSaver.notesaver.model.User;
-import com.noteSaver.notesaver.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,11 +10,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceUnitTest {
