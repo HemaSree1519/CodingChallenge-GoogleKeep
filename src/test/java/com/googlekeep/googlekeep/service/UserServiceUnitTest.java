@@ -10,6 +10,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,5 +41,12 @@ public class UserServiceUnitTest {
         List<User> list = Arrays.asList(user, user2);
         when(userRepository.findAll()).thenReturn(list);
         assertEquals(list, userService.getUsers());
+    }
+    @Test
+    public void when_addUser_it_should_return_saved_user() {
+        when(userRepository.findById("any@email")).thenReturn(java.util.Optional.ofNullable(user));
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        User created = userService.addUser(user);
+        assertThat(created.getEmail()).isSameAs(user.getEmail());
     }
 }
