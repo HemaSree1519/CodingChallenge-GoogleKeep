@@ -4,6 +4,7 @@ import com.googlekeep.googlekeep.exception.ResourceNotFoundException;
 import com.googlekeep.googlekeep.model.Note;
 import com.googlekeep.googlekeep.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,5 +30,14 @@ public class NoteService {
         note.setContent(noteDetails.getContent());
         note.setUpdatedAt(noteDetails.getUpdatedAt());
         return noteRepository.save(note);
+    }
+    ResponseEntity<?> deleteNote(Long noteId, String email) {
+        Note note = noteRepository.findById(noteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
+        if (note.getEmail().equals(email)) {
+            noteRepository.delete(note);
+            return ResponseEntity.ok().build();
+        } else throw new ResourceNotFoundException("Note", "id", noteId);
+
     }
 }
