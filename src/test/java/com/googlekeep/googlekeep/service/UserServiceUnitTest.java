@@ -1,6 +1,7 @@
 package com.googlekeep.googlekeep.service;
 
 import com.googlekeep.googlekeep.exception.DuplicateEntryException;
+import com.googlekeep.googlekeep.exception.ResourceNotFoundException;
 import com.googlekeep.googlekeep.model.User;
 import com.googlekeep.googlekeep.repository.UserRepository;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +45,6 @@ public class UserServiceUnitTest {
     }
     @Test
     public void when_addUser_it_should_return_saved_user() {
-        when(userRepository.findById("any@email")).thenReturn(java.util.Optional.ofNullable(user));
         when(userRepository.save(any(User.class))).thenReturn(user);
         User created = userService.addUser(user);
         assertThat(created.getEmail()).isSameAs(user.getEmail());
@@ -57,7 +56,6 @@ public class UserServiceUnitTest {
     }
     @Test(expected = ResourceNotFoundException.class)
     public void when_getUser_with_given_non_existing_email_it_should_throw_exception() {
-        when(userRepository.findById(user.getEmail())).thenThrow(new ResourceNotFoundException("User", "email", user.getEmail()));
         userService.getUser("DummyUser@gmail.com");
     }
 }

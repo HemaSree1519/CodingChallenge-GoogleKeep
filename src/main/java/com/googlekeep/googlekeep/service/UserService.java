@@ -1,6 +1,7 @@
 package com.googlekeep.googlekeep.service;
 
 import com.googlekeep.googlekeep.exception.DuplicateEntryException;
+import com.googlekeep.googlekeep.exception.ResourceNotFoundException;
 import com.googlekeep.googlekeep.model.User;
 import com.googlekeep.googlekeep.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,10 @@ public class UserService {
         } else {
             throw new DuplicateEntryException("User", "email", email);
         }
+    }
+
+    User getUser(String email) {
+        return userRepository.findById(email)
+                .orElseThrow(() -> new ResourceNotFoundException("user", "id", email));
     }
 }
