@@ -31,14 +31,17 @@ public class NoteRepositoryUnitTest {
         note = entityManager.persistAndFlush(note);
         assertThat(noteRepository.findById(note.getId()).isPresent()).isTrue();
     }
+
     @Test
     public void it_should_find_note_byId() {
         note = entityManager.persistAndFlush(note);
         assertThat(noteRepository.findById(note.getId()).get()).isEqualTo(note);
     }
+
     @Test
     public void it_should_find_note_byEmail() {
         note = entityManager.persistAndFlush(note);
         assertThat(noteRepository.findByEmail(note.getEmail()).get(0)).isEqualTo(note);
 
     }
+}
