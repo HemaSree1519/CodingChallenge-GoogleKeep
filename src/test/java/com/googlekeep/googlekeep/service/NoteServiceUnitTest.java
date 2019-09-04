@@ -49,4 +49,9 @@ public class NoteServiceUnitTest {
         when(noteRepository.findByEmail(any(String.class))).thenReturn(list);
         assertEquals(list, noteService.getNotes("UnitTester@gmail.com"));
     }
+    @Test(expected = ResourceNotFoundException.class)
+    public void when_updateNote_with_non_existing_note_it_should_throw_exception() {
+        when(noteRepository.findById((long) 1)).thenThrow(new ResourceNotFoundException("Note", "id", 1));
+        noteService.updateNote(note.getId(), note);
+    }
 }
