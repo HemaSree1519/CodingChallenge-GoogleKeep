@@ -55,5 +55,9 @@ public class UserServiceUnitTest {
         when(userRepository.findById(user.getEmail())).thenThrow(new DuplicateEntryException("User", "email", user.getEmail()));
         userService.addUser(user);
     }
-
+    @Test(expected = ResourceNotFoundException.class)
+    public void when_getUser_with_given_non_existing_email_it_should_throw_exception() {
+        when(userRepository.findById(user.getEmail())).thenThrow(new ResourceNotFoundException("User", "email", user.getEmail()));
+        userService.getUser("DummyUser@gmail.com");
+    }
 }
