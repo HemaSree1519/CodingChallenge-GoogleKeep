@@ -5,6 +5,7 @@ import SignUp from '../containers/signup/index'
 import Home from '../containers/home/index'
 import Login from '../containers/login/index'
 import NotesBoard from '../containers/notes/index'
+import PageNotFound from '../containers/pageNotFound/index'
 
 export default ({childProps}) =>
     <Switch>
@@ -12,4 +13,5 @@ export default ({childProps}) =>
         <Route path="/notes" exact component={NotesBoard}/>
         <AppliedRoute path="/signup" exact component={SignUp} props={childProps}/>
         <AppliedRoute path="/login" exact component={Login} props={childProps}/>
+        <Route component={PageNotFound}/>
     </Switch>;

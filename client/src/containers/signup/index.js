@@ -19,6 +19,7 @@ export default class Index extends Component {
 
     handleSignUp = () => {
         if (areMatchingPasswords(userPassword, userReEnteredPassword)) {
+            this.props.userHasAuthenticated(true);
             setUser(userEmail);
             userEmail = '';
             userPassword = '';

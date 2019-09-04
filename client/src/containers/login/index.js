@@ -16,6 +16,7 @@ export default class Index extends Component {
     }
 
     handleLogin = () => {
+        this.props.userHasAuthenticated(true);
         setUser(userEmail);
         userEmail = '';
         userPassword = '';
