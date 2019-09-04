@@ -1,6 +1,6 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import Index from "../../signup";
+import Index from "../index";
 import {areMatchingPasswords} from "../service";
 
 jest.mock('../service');
@@ -30,4 +30,34 @@ describe('SingUp', ()=>{
         const expectedState = {isError: true, errorMessage: 'error message'};
         expect(wrapper.state()).toEqual(expectedState)
     });
+    it("should update the state with empty error message when valid email is given", () => {
+        const email = {
+            target: {
+                value: "test@gmail.com"
+            }
+        };
+        instance.onEmail(email);
+        const expectedState = {isError: false, errorMessage: ''};
+        expect(wrapper.state()).toEqual(expectedState)
+    });
+    it("should update the state with empty error message when password is given", () => {
+        const password = {
+            target: {
+                value: "password"
+            }
+        };
+        instance.onPassword(password);
+        const expectedState = {isError: false, errorMessage: ''};
+        expect(wrapper.state()).toEqual(expectedState)
+    });
+    it("should update the state with empty error message when re-password is given", () => {
+        const password = {
+            target: {
+                value: "password"
+            }
+        };
+        instance.onReEnteredPassword(password);
+        const expectedState = {isError: false, errorMessage: ''};
+        expect(wrapper.state()).toEqual(expectedState)
+    })
 });
