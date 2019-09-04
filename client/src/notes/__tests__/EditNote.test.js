@@ -38,7 +38,7 @@ describe('EditNote', () => {
     it('should render an edit note modal footer',()=>{
         expect(wrapper.find('ModalFooter').length).toEqual(1);
         expect(wrapper.find('Button').length).toEqual(2);
-    })
+    });
     it("should call delete function upon delete button pressed", () => {
         wrapper.find('Button[name="delete"]').simulate('click');
         expect(props.onDelete).toHaveBeenCalledTimes(1);

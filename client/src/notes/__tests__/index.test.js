@@ -38,4 +38,8 @@ describe('notes', () => {
         expect(wrapper.find('CardColumns').length).toEqual(1);
         expect(wrapper.find('Note').length).toEqual(1);
     });
+    it('should render editing note when note is being edited',()=>{
+        wrapper.setState({isEditingNote:true});
+        expect(wrapper.find('EditNote').length).toEqual(1);
+    })
 });
