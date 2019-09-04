@@ -26,15 +26,17 @@ export default class Index extends Component {
     onCloseNewNote = () => {
         if (this.state.writingNoteTitle !== '' || this.state.writingNoteContent !== '') {
             const note = {
+                "email": 'test@mail.com',
                 "title": this.state.writingNoteTitle,
-                "content": this.state.writingNoteContent
+                "content": this.state.writingNoteContent,
+                "createdAt": new Date(),
+                "updatedAt": new Date(),
             };
             let temp = this.state.notes;
             temp.push(note);
             this.setState({
                 notes: temp
-            })
-            console.log(this.state.notes)
+            });
         }
         this.onWriteToggle();
     };
