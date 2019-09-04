@@ -49,4 +49,10 @@ public class UserServiceUnitTest {
         User created = userService.addUser(user);
         assertThat(created.getEmail()).isSameAs(user.getEmail());
     }
+    @Test(expected = DuplicateEntryException.class)
+    public void when_addUser_with_duplicate_entry_it_should_throw_exception() {
+        when(userRepository.findById(user.getEmail())).thenThrow(new DuplicateEntryException("User", "email", user.getEmail()));
+        userService.addUser(user);
+    }
+
 }
