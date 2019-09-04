@@ -7,8 +7,15 @@ let userPassword = '';
 let userReEnteredPassword = '';
 export default class Index extends Component {
 
-    handleSignUp =  () => {
-        // event.preventDefault();
+    constructor(props) {
+        super(props);
+        this.state = {
+            isError: false,
+            errorMessage: ''
+        }
+    }
+
+    handleSignUp = () => {
         if (areMatchingPasswords(userPassword, userReEnteredPassword)) {
             console.log("Successfully registered")
         }
@@ -16,18 +23,26 @@ export default class Index extends Component {
             console.log("Failed to signup")
         }
     };
+
+    setErrorState = (flag, message) => {
+        this.setState({
+            isError: flag,
+            errorMessage: message
+        });
+    };
     onEmail = (email) => {
+        this.setErrorState(false, '');
         userEmail = email.target.value;
     };
 
     onPassword = (password) => {
+        this.setErrorState(false, '');
         userPassword = password.target.value;
     };
 
     onReEnteredPassword = (rePassword) => {
         userReEnteredPassword = rePassword.target.value;
     };
-
 
     render() {
         return (

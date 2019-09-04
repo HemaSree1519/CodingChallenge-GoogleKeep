@@ -28,6 +28,6 @@ describe('SingUp', ()=>{
     it("should update the state with given values", () => {
         instance.setErrorState(true, "error message");
         const expectedState = {isError: true, errorMessage: 'error message'};
-        expect(component.state()).toEqual(expectedState)
+        expect(wrapper.state()).toEqual(expectedState)
     });
 });
