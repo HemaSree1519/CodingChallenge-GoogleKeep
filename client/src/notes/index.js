@@ -8,6 +8,7 @@ export default class Index extends Component {
         super(props);
         this.state = {
             notes: [],
+            message: "Get your note saved with Google Keep",
             isWritingNote: false,
             writingNoteTitle: '',
             writingNoteContent: ''
@@ -57,6 +58,9 @@ export default class Index extends Component {
                         <Input className="note-input" type="text" placeholder="Write a note..." onClick={() => {
                             this.onWriteToggle();
                         }}/> : <WriteNote childProps={props}/>}
+                </div>
+                <div>
+
                 </div>
             </div>
         )
