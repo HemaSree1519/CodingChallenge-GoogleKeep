@@ -18,7 +18,6 @@ describe('SingUp', ()=>{
         expect(wrapper.find('Button').length).toEqual(1);
     }) ;
     it("should signUp with given details", () => {
-        instance.handleSignUp = jest.fn(instance.handleSignUp);
         wrapper.find('Input[name="email"]').simulate('change', {target: {value: 'Tester'}});
         wrapper.find('Input[name="password"]').simulate('change', {target: {value: 'password'}});
         wrapper.find('Input[name="rePassword"]').simulate('change', {target: {value: 'password'}});

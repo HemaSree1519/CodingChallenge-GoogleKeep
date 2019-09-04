@@ -52,6 +52,11 @@ class Index extends Component {
                                             <NavLink href="/signup" className="link">Signup</NavLink>
                                         </NavItem>
                                     </LinkContainer>
+                                    <LinkContainer to="/login">
+                                        <NavItem>
+                                            <NavLink href="/login" className="link">Login</NavLink>
+                                        </NavItem>
+                                    </LinkContainer>
                                 </Fragment>
                             }
                         </Nav>
