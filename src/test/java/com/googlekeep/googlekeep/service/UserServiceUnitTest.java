@@ -1,5 +1,6 @@
 package com.googlekeep.googlekeep.service;
 
+import com.googlekeep.googlekeep.exception.DuplicateEntryException;
 import com.googlekeep.googlekeep.model.User;
 import com.googlekeep.googlekeep.repository.UserRepository;
 import org.junit.Test;
