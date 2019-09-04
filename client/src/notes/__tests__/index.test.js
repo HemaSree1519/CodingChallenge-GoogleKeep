@@ -32,7 +32,7 @@ describe('notes', () => {
             "createdAt": new Date(),
             "updatedAt": new Date()
         };
-        let temp;
+        let temp=[];
         temp.push(note);
         wrapper.setState({notes : temp});
         expect(wrapper.find('CardColumns').length).toEqual(1);

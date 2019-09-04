@@ -1,7 +1,8 @@
-import {Input} from "reactstrap";
 import React, {Component} from "react";
 import "./styles.css"
+import {CardColumns, Input} from "reactstrap";
 import WriteNote from "./components/WriteNote";
+import Note from "./components/Note";
 
 export default class Index extends Component {
     constructor(props) {
@@ -14,7 +15,14 @@ export default class Index extends Component {
             writingNoteContent: ''
         }
     }
-
+    setEditState = (note) => {
+        this.setState(prevState => ({
+            isEditingNote: !prevState.isEditingNote,
+            editingNote: note !== '' ? note : [],
+            editingNoteContent: note !== '' ? note["content"] : '',
+            editingNoteTitle: note !== '' ? note['title'] : ''
+        }))
+    };
     onWriteToggle = () => {
         this.setState({isWritingNote: !this.state.isWritingNote, writingNoteTitle: '', writingNoteContent: ''})
     };
@@ -60,7 +68,10 @@ export default class Index extends Component {
                         }}/> : <WriteNote childProps={props}/>}
                 </div>
                 <div>
-
+                    {!this.state.notes.length > 0 ? <i>{this.state.message}</i> : <CardColumns>
+                        {this.state.notes.map((note) => {
+                            return (<Note note={note} setEditState={this.setEditState}/>)
+                        })}</CardColumns>}
                 </div>
             </div>
         )
