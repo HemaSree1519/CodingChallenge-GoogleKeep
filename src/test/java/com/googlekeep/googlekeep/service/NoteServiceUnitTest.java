@@ -7,9 +7,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,5 +38,15 @@ public class NoteServiceUnitTest {
         when(noteRepository.save(note)).thenReturn(note);
         Note created = noteService.addNote(note);
         assertThat(created.getEmail()).isSameAs(note.getEmail());
+    }
+    @Test
+    public void when_getNotes_it_should_return_list_of_notes() {
+        Note note1 = new Note();
+        note1.setEmail("UnitTester@gmail.com");
+        note1.setCreatedAt(new Date());
+        note1.setUpdatedAt(new Date());
+        List<Note> list = Arrays.asList(note, note1);
+        when(noteRepository.findByEmail(any(String.class))).thenReturn(list);
+        assertEquals(list, noteService.getNotes("UnitTester@gmail.com"));
     }
 }
