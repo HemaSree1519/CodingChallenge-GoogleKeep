@@ -3,6 +3,7 @@ import "./styles.css"
 import {CardColumns, Input} from "reactstrap";
 import WriteNote from "./components/WriteNote";
 import Note from "./components/Note";
+import EditNote from "./components/EditNote";
 
 export default class Index extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ export default class Index extends Component {
         this.state = {
             notes: [],
             message: "Get your note saved with Google Keep",
+            isEditingNote:false,
             isWritingNote: false,
             writingNoteTitle: '',
             writingNoteContent: ''
@@ -72,6 +74,7 @@ export default class Index extends Component {
                         {this.state.notes.map((note) => {
                             return (<Note note={note} setEditState={this.setEditState}/>)
                         })}</CardColumns>}
+                    {this.state.isEditingNote && <EditNote childProps={props}/>}
                 </div>
             </div>
         )
