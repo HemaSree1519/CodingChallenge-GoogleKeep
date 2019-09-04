@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -54,5 +55,11 @@ public class NoteServiceUnitTest {
     public void when_updateNote_with_non_existing_note_it_should_throw_exception() {
         when(noteRepository.findById((long) 1)).thenThrow(new ResourceNotFoundException("Note", "id", 1));
         noteService.updateNote(note.getId(), note);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void when_deleteNote_with_non_existing_note_it_should_throw_exception() {
+        when(noteRepository.findById((long) 1)).thenThrow(new ResourceNotFoundException("Note", "id", 1));
+        noteService.deleteNote(note.getId(), note.getEmail());
     }
 }
