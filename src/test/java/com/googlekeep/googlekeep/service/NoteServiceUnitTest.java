@@ -1,5 +1,6 @@
 package com.googlekeep.googlekeep.service;
 
+import com.googlekeep.googlekeep.exception.ResourceNotFoundException;
 import com.googlekeep.googlekeep.model.Note;
 import com.googlekeep.googlekeep.repository.NoteRepository;
 import org.junit.Test;
