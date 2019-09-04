@@ -22,7 +22,7 @@ class Index extends Component {
         try {
             this.setState({isAuthenticated: !this.state.isAuthenticated});
             resetUser();
-            console.log("Logout")
+            this.props.history.push("/");
         } catch (e) {
             alert(e.message);
         }
@@ -37,7 +37,7 @@ class Index extends Component {
             <div className="App container">
                 <Navbar className="navbar">
                     <NavbarBrand>
-                        <Label className="link">Save Note App</Label>
+                        <Label className="link">Google Keep</Label>
                     </NavbarBrand>
                     <NavbarToggler/>
                     <Collapse isOpen={true}>
