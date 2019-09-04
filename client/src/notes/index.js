@@ -12,18 +12,31 @@ export default class Index extends Component {
             notes: [],
             message: "Get your note saved with Google Keep",
             isEditingNote:false,
+            editingNote: '',
+            editingNoteTitle: '',
+            editingNoteContent: '',
             isWritingNote: false,
             writingNoteTitle: '',
             writingNoteContent: ''
         }
     }
     setEditState = (note) => {
+        console.log(note);
+        console.log("setEditNote");
         this.setState(prevState => ({
             isEditingNote: !prevState.isEditingNote,
             editingNote: note !== '' ? note : [],
             editingNoteContent: note !== '' ? note["content"] : '',
             editingNoteTitle: note !== '' ? note['title'] : ''
-        }))
+        }));
+        console.log(this.state.isEditingNote)
+    };
+    onEditNoteContent = (editedContent) => {
+        this.setState({editingNoteContent: editedContent.target.value})
+    };
+
+    onEditNoteTitle = (editedTitle) => {
+        this.setState({editingNoteTitle: editedTitle.target.value})
     };
     onWriteToggle = () => {
         this.setState({isWritingNote: !this.state.isWritingNote, writingNoteTitle: '', writingNoteContent: ''})
@@ -33,6 +46,9 @@ export default class Index extends Component {
     };
     onWriteNoteContent = (writeNoteContent) => {
         this.setState({writingNoteContent: writeNoteContent.target.value})
+    };
+    onDelete = () => {
+        this.setEditState('')
     };
     onCloseNewNote = () => {
         if (this.state.writingNoteTitle !== '' || this.state.writingNoteContent !== '') {
@@ -54,6 +70,15 @@ export default class Index extends Component {
 
     render() {
         const props = {
+            isEditingNote: this.state.isEditingNote,
+            editingNote: this.state.editingNote,
+            editingNoteTitle: this.state.editingNoteTitle,
+            editingNoteContent: this.state.editingNoteContent,
+            setEditState: this.setEditState,
+            onDelete: this.onDelete,
+            onUpdateNote: this.onUpdateNote,
+            onEditNoteContent: this.onEditNoteContent,
+            onEditNoteTitle: this.onEditNoteTitle,
             writingNoteTitle: this.state.writingNoteTitle,
             writingNoteContent: this.state.writingNoteContent,
             onWriteNoteTitle: this.onWriteNoteTitle,
