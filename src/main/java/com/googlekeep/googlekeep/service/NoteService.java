@@ -31,7 +31,7 @@ public class NoteService {
         note.setUpdatedAt(noteDetails.getUpdatedAt());
         return noteRepository.save(note);
     }
-    ResponseEntity<?> deleteNote(Long noteId, String email) {
+    public ResponseEntity<?> deleteNote(Long noteId, String email) {
         Note note = noteRepository.findById(noteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
         if (note.getEmail().equals(email)) {

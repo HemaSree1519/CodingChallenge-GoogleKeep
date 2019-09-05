@@ -5,7 +5,9 @@ import com.googlekeep.googlekeep.model.Note;
 import com.googlekeep.googlekeep.repository.NoteRepository;
 import com.googlekeep.googlekeep.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -43,5 +45,12 @@ public class NoteController {
     @PutMapping("/notes/{id}/update")
     public Note updateNote(@PathVariable(value = "id") Long noteId, @Valid @RequestBody Note noteDetails) {
         return noteService.updateNote(noteId, noteDetails);
+    }
+
+    // Delete a note
+    @DeleteMapping("/notes/{email}/{id}/delete")
+    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long noteId, @PathVariable(value = "email") String email) {
+        return noteService.deleteNote(noteId, email);
+
     }
 }
