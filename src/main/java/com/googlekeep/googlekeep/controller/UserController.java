@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -34,5 +35,11 @@ public class UserController {
     @GetMapping("/users/{email}")
     public User getUser(@PathVariable(value = "email") String email) {
         return userService.getUser(email);
+    }
+
+    // Get all users
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        return userService.getUsers();
     }
 }

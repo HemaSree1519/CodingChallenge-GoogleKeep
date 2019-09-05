@@ -95,7 +95,7 @@ public class UserControllerUnitTest {
     public void whenGetUsers_thenReturnListOfUsers() throws Exception {
         List<User> list = Arrays.asList(user);
         when(userService.getUsers()).thenReturn(list);
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/notesaver/users")
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/googlekeep/users")
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         String expectedJson = "[" + userJson + "]";
         Assertions.assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
