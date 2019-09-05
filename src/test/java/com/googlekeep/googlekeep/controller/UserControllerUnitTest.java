@@ -1,5 +1,6 @@
 package com.googlekeep.googlekeep.controller;
 
+import com.googlekeep.googlekeep.exception.DuplicateEntryException;
 import com.googlekeep.googlekeep.model.User;
 import com.googlekeep.googlekeep.repository.UserRepository;
 import com.googlekeep.googlekeep.service.UserService;
@@ -17,13 +18,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Objects;
+
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
 public class UserControllerUnitTest {
-    String userJson;
+    private String userJson;
     @Autowired
     private MockMvc mvc;
     @MockBean
@@ -51,5 +54,17 @@ public class UserControllerUnitTest {
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
         assertEquals(userJson, result.getResponse().getContentAsString());
+    }
+    @Test
+    public void givenDuplicateUser_whenAddUser_thenThrowException() throws Exception {
+        when(userService.addUser(Mockito.any(User.class)))
+                .thenThrow(new DuplicateEntryException("User", "email", "duplicateMail@gmail.com"));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/googlekeep/users/add")
+                .accept(MediaType.APPLICATION_JSON).content(userJson)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+        String expectedException = "User already exist with email : 'duplicateMail@gmail.com'";
+        assertEquals(expectedException, Objects.requireNonNull(result.getResolvedException()).getMessage());
     }
 }
