@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
@@ -66,5 +67,26 @@ public class NoteControllerUnitTest {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         String expectedJson = "[" + noteJson + "]";
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+    }
+    @Test
+    public void givenInvalidEmail_whenGetNotes_thenReturnEmptyList() throws Exception {
+        List<Note> emptyList = Collections.emptyList();
+        when(noteService.getNotes("invalidMail@gmail.com")).thenReturn(emptyList);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/googlekeep/notes/all/invalidMail@gmail.com")
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        assertEquals(0, mvcResult.getResponse().getContentLength());
+    }
+    @Test
+    public void givenIdAndEditedNote_whenUpdateNote_thenReturnSuccessResponse() throws Exception {
+        note.setTitle("Updated title");
+        String updatedNoteJson = "{\"id\":1,\"title\":\"TestTitle\",\"content\":\"This is a testing note\"," +
+                "\"email\":\"tester@gmail.com\",\"updatedAt\":null,\"createdAt\":null}";
+        when(noteService.updateNote((long) 1, note)).thenReturn(note);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put("/googlekeep/notes/1/update")
+                .accept(MediaType.APPLICATION_JSON).content(updatedNoteJson)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
 }
