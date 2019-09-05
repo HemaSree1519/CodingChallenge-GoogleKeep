@@ -45,7 +45,7 @@ public class UserControllerUnitTest {
     public void givenUser_whenAddUser_thenReturnOkResponse() throws Exception {
         when(userService.addUser(Mockito.any(User.class))).thenReturn(user);
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/notesaver/users/add")
+                .post("/googlekeep/users/add")
                 .accept(MediaType.APPLICATION_JSON).content(userJson)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mvc.perform(requestBuilder).andReturn();
