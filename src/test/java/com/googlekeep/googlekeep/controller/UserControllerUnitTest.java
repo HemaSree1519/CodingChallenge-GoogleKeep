@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static junit.framework.TestCase.assertEquals;
@@ -87,5 +89,16 @@ public class UserControllerUnitTest {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         String expectedException = "User not found with email : 'invalidMail@gmail.com'";
         Assertions.assertEquals(expectedException, Objects.requireNonNull(mvcResult.getResolvedException()).getMessage());
+    }
+
+    @Test
+    public void whenGetUsers_thenReturnListOfUsers() throws Exception {
+        List<User> list = Arrays.asList(user);
+        when(userService.getUsers()).thenReturn(list);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/notesaver/users")
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        String expectedJson = "[" + userJson + "]";
+        Assertions.assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
+        Assertions.assertEquals(expectedJson, mvcResult.getResponse().getContentAsString());
     }
 }
