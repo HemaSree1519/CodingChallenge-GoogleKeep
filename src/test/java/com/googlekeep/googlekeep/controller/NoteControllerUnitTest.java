@@ -18,6 +18,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -54,5 +57,15 @@ public class NoteControllerUnitTest {
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
+    @Test
+    public void givenValidEmail_whenGetNotes_thenReturnAllNotesOfGivenEmail() throws Exception {
+        List<Note> list = Arrays.asList(note);
+        when(noteService.getNotes("testMail@gmail.com")).thenReturn(list);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/googlekeep/notes/all/testMail@gmail.com")
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        String expectedJson = "[" + noteJson + "]";
+        assertEquals(expectedJson, mvcResult.getResponse().getContentAsString());
+        assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
     }
 }
