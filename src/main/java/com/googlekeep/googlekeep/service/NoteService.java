@@ -14,7 +14,7 @@ public class NoteService {
     @Autowired
     NoteRepository noteRepository;
 
-    List<Note> getNotes(String email) {
+    public List<Note> getNotes(String email) {
         return noteRepository.findByEmail(email);
 
     }
