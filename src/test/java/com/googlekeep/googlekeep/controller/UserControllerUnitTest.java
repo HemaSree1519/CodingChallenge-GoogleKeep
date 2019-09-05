@@ -1,6 +1,7 @@
 package com.googlekeep.googlekeep.controller;
 
 import com.googlekeep.googlekeep.exception.DuplicateEntryException;
+import com.googlekeep.googlekeep.exception.ResourceNotFoundException;
 import com.googlekeep.googlekeep.model.User;
 import com.googlekeep.googlekeep.repository.UserRepository;
 import com.googlekeep.googlekeep.service.UserService;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -76,5 +78,14 @@ public class UserControllerUnitTest {
         String expectedResult = "{\"userName\":tester,\"password\":password,\"email\":\"testMail@gmail.com\",\"role\":admin}";
         String returnedResult = mvcResult.getResponse().getContentAsString();
         JSONAssert.assertEquals(expectedResult, returnedResult, false);
+    }
+    @Test
+    public void givenInvalidUserEmail_whenGetUser_thenThrowException() throws Exception {
+        when(userService.getUser("invalidMail@gmail.com"))
+                .thenThrow(new ResourceNotFoundException("User", "email", "invalidMail@gmail.com"));
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/googlekeep/users/invalidMail@gmail.com")
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        String expectedException = "User not found with email : 'invalidMail@gmail.com'";
+        Assertions.assertEquals(expectedException, Objects.requireNonNull(mvcResult.getResolvedException()).getMessage());
     }
 }
