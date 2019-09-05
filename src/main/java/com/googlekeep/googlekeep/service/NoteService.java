@@ -21,7 +21,7 @@ public class NoteService {
     public Note addNote(Note note) {
         return noteRepository.save(note);
     }
-    Note updateNote(Long noteId, Note noteDetails) {
+    public Note updateNote(Long noteId, Note noteDetails) {
 
         Note note = noteRepository.findById(noteId)
                 .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
