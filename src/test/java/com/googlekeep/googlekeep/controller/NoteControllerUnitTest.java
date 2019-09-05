@@ -1,5 +1,6 @@
 package com.googlekeep.googlekeep.controller;
 
+import com.googlekeep.googlekeep.exception.ResourceNotFoundException;
 import com.googlekeep.googlekeep.model.Note;
 import com.googlekeep.googlekeep.repository.NoteRepository;
 import com.googlekeep.googlekeep.service.NoteService;
@@ -11,12 +12,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,6 +60,7 @@ public class NoteControllerUnitTest {
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
+
     @Test
     public void givenValidEmail_whenGetNotes_thenReturnAllNotesOfGivenEmail() throws Exception {
         List<Note> list = Arrays.asList(note);
@@ -68,6 +70,7 @@ public class NoteControllerUnitTest {
         String expectedJson = "[" + noteJson + "]";
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
     }
+
     @Test
     public void givenInvalidEmail_whenGetNotes_thenReturnEmptyList() throws Exception {
         List<Note> emptyList = Collections.emptyList();
@@ -76,6 +79,7 @@ public class NoteControllerUnitTest {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         assertEquals(0, mvcResult.getResponse().getContentLength());
     }
+
     @Test
     public void givenIdAndEditedNote_whenUpdateNote_thenReturnSuccessResponse() throws Exception {
         note.setTitle("Updated title");
@@ -86,6 +90,30 @@ public class NoteControllerUnitTest {
                 .put("/googlekeep/notes/1/update")
                 .accept(MediaType.APPLICATION_JSON).content(updatedNoteJson)
                 .contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+        assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    public void givenInvalidIdAndEditedNote_whenUpdateNote_thenThrowExceptionOrEmptyNote() throws Exception {
+        note.setTitle("Updated title");
+        String updatedNoteJson = "{\"id\":5,\"title\":\"Updated title\",\"content\":\"This is a testing note\"," +
+                "\"email\":\"tester@gmail.com\",\"updatedAt\":null,\"createdAt\":null}";
+        when(noteService.updateNote((long) 5, note)).thenThrow(new ResourceNotFoundException("Note", "id", "5"));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .put("/notesaver/notes/5/update")
+                .accept(MediaType.APPLICATION_JSON).content(updatedNoteJson)
+                .contentType(MediaType.APPLICATION_JSON);
+        MvcResult result = mvc.perform(requestBuilder).andReturn();
+        assertEquals("", result.getResponse().getContentAsString());
+    }
+
+    @Test
+    public void givenValidIdAndEmail_whenDeleteNote_thenReturnSuccessResponse() throws Exception {
+        when(noteService.deleteNote((long) 1, "tester@gmail.com"))
+                .thenReturn(ResponseEntity.ok().build());
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/notesaver/notes/tester@gmail.com/1/delete");
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
     }
