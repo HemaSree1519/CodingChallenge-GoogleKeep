@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Date;
+import java.util.Objects;
+
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -46,5 +48,59 @@ public class NoteControllerITTest {
                 "http://localhost:" + port + "/googlekeep/notes/add",
                 HttpMethod.POST, entity, String.class);
         assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
+    }
+
+    @Test
+    public void getNotesTest() {
+        note.setEmail("test@gmail.com");
+        HttpEntity<Note> entity = new HttpEntity<>(note, headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/add",
+                HttpMethod.POST, entity, String.class);
+        HttpEntity<Note> entityForGetApi = new HttpEntity<>(null, headers);
+        ResponseEntity<String> getSuccessApiResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/all/test@gmail.com",
+                HttpMethod.GET, entityForGetApi, String.class);
+        ResponseEntity<String> getFailedApiResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/all/failedMail@gmail.com",
+                HttpMethod.GET, entityForGetApi, String.class);
+        assertEquals(HttpStatus.OK.value(), getSuccessApiResponse.getStatusCodeValue());
+        assertEquals(176, getSuccessApiResponse.getBody().length());
+        assertEquals(2, Objects.requireNonNull(getFailedApiResponse.getBody()).length());
+    }
+
+    @Test
+    public void updateNoteTest() {
+        HttpEntity<Note> entity = new HttpEntity<>(note, headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/add",
+                HttpMethod.POST, entity, String.class);
+        note.setTitle("Update Title");
+        ResponseEntity<String> getSuccessApiResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/1/update",
+                HttpMethod.PUT, entity, String.class);
+        ResponseEntity<String> getFailedApiResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/2/update",
+                HttpMethod.PUT, entity, String.class);
+        assertEquals(HttpStatus.OK.value(), getSuccessApiResponse.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND.value(), getFailedApiResponse.getStatusCodeValue());
+
+    }
+
+    @Test
+    public void deleteNoteTest() {
+        HttpEntity<Note> entity = new HttpEntity<>(note, headers);
+        ResponseEntity<String> response = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/add",
+                HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> getSuccessApiResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/testing@gmail.com/1/delete",
+                HttpMethod.DELETE, entity, String.class);
+        ResponseEntity<String> getFailedApiResponse = restTemplate.exchange(
+                "http://localhost:" + port + "/googlekeep/notes/InvalidMail@gmail.com/1/delete",
+                HttpMethod.DELETE, entity, String.class);
+        assertEquals(HttpStatus.OK.value(), getSuccessApiResponse.getStatusCodeValue());
+        assertEquals(HttpStatus.NOT_FOUND.value(), getFailedApiResponse.getStatusCodeValue());
+
     }
 }
