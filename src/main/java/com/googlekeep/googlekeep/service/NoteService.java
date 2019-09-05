@@ -18,7 +18,7 @@ public class NoteService {
         return noteRepository.findByEmail(email);
 
     }
-    Note addNote(Note note) {
+    public Note addNote(Note note) {
         return noteRepository.save(note);
     }
     Note updateNote(Long noteId, Note noteDetails) {

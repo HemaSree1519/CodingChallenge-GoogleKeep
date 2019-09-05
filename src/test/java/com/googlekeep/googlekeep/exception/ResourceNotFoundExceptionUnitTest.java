@@ -1,7 +1,8 @@
 package com.googlekeep.googlekeep.exception;
 
 import org.junit.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class ResourceNotFoundExceptionUnitTest {
     @Test
