@@ -7,6 +7,7 @@ import com.googlekeep.googlekeep.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -66,5 +67,14 @@ public class UserControllerUnitTest {
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         String expectedException = "User already exist with email : 'duplicateMail@gmail.com'";
         assertEquals(expectedException, Objects.requireNonNull(result.getResolvedException()).getMessage());
+    }
+    @Test
+    public void givenValidUserEmail_whenGetUser_thenReturnUser() throws Exception {
+        when(userService.getUser("testMail@gmail.com")).thenReturn(user);
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get("/googlekeep/users/testMail@gmail.com")
+                .contentType(MediaType.APPLICATION_JSON)).andReturn();
+        String expectedResult = "{\"userName\":tester,\"password\":password,\"email\":\"testMail@gmail.com\",\"role\":admin}";
+        String returnedResult = mvcResult.getResponse().getContentAsString();
+        JSONAssert.assertEquals(expectedResult, returnedResult, false);
     }
 }
