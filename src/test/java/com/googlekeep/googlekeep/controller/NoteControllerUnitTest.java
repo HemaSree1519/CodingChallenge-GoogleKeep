@@ -49,11 +49,10 @@ public class NoteControllerUnitTest {
     public void givenNote_whenAddNote_thenReturnSuccessResponse() throws Exception {
         when(noteService.addNote(Mockito.any(Note.class))).thenReturn(note);
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/notesaver/notes/add")
+                .post("/googlekeep/notes/add")
                 .accept(MediaType.APPLICATION_JSON).content(noteJson)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
-        assertEquals(noteJson, result.getResponse().getContentAsString());
     }
 }
