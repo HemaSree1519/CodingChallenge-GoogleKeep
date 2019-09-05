@@ -18,7 +18,7 @@ public class UserService {
     List<User> getUsers() {
         return userRepository.findAll();
     }
-    User addUser(User userDetails) {
+    public User addUser(User userDetails) {
         String email = userDetails.getEmail();
         Optional<User> user = userRepository.findById(email);
         user.toString();
@@ -29,7 +29,7 @@ public class UserService {
         }
     }
 
-    User getUser(String email) {
+    public User getUser(String email) {
         return userRepository.findById(email)
                 .orElseThrow(() -> new ResourceNotFoundException("user", "id", email));
     }
