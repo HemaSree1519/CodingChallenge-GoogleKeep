@@ -5,6 +5,8 @@ import com.googlekeep.googlekeep.repository.UserRepository;
 import com.googlekeep.googlekeep.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,4 +30,9 @@ public class UserController {
         return userService.addUser(userDetails);
     }
 
+    // Get a single user
+    @GetMapping("/users/{email}")
+    public User getUser(@PathVariable(value = "email") String email) {
+        return userService.getUser(email);
+    }
 }
