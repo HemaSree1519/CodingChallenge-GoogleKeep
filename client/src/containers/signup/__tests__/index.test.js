@@ -4,19 +4,19 @@ import Index from "../index";
 import {areMatchingPasswords} from "../service";
 
 jest.mock('../service');
-describe('SingUp', ()=>{
+describe('SingUp', () => {
     let wrapper;
     let instance;
-    beforeEach(()=>{
+    beforeEach(() => {
         wrapper = shallow(<Index/>);
         instance = wrapper.instance();
     });
-    it('should render signup form',()=>{
+    it('should render signup form', () => {
         expect(wrapper.find('Form').length).toEqual(1);
         expect(wrapper.find('Col').length).toEqual(3);
         expect(wrapper.find('FormGroup').length).toEqual(3);
         expect(wrapper.find('Button').length).toEqual(1);
-    }) ;
+    });
     it("should signUp with given details", () => {
         wrapper.find('Input[name="email"]').simulate('change', {target: {value: 'Tester'}});
         wrapper.find('Input[name="password"]').simulate('change', {target: {value: 'password'}});
@@ -58,5 +58,5 @@ describe('SingUp', ()=>{
         instance.onReEnteredPassword(password);
         const expectedState = {isError: false, errorMessage: ''};
         expect(wrapper.state()).toEqual(expectedState)
-    })
+    });
 });

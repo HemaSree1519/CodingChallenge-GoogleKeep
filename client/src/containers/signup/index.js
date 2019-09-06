@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import './styles.css'
 import {Button, Col, Form, FormGroup, Input} from "reactstrap";
-import {areMatchingPasswords} from "./service";
+import {areMatchingPasswords, formUserDetails} from "./service";
 import {setUser} from "../../session/UserSession";
+import {createUser} from "../../restService/userAPIs";
 
 let userEmail = '';
 let userPassword = '';
@@ -17,16 +18,20 @@ export default class Index extends Component {
         }
     }
 
-    handleSignUp = () => {
-        if (areMatchingPasswords(userPassword, userReEnteredPassword)) {
-            this.props.userHasAuthenticated(true);
-            setUser(userEmail);
-            userEmail = '';
-            userPassword = '';
-            this.props.history.push('/notes');
-        }
-        else {
-            console.log("Failed to signup")
+    handleSignUp = async () => {
+        try {
+            if (areMatchingPasswords(userPassword, userReEnteredPassword)) {
+                await createUser(formUserDetails(userEmail, userPassword)).then((response) => {
+                    if (response === 200) {
+                        this.props.userHasAuthenticated(true);
+                        setUser(userEmail);
+                        userEmail = '';
+                        userPassword = '';
+                        this.props.history.push('/notes');
+                    }
+                });
+            }
+        } catch (e) {
         }
     };
 
