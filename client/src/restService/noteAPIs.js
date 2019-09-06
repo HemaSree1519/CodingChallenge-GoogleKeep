@@ -15,3 +15,14 @@ export const createNote = (note) => {
         }
     });
 };
+export const getAllNotesOfUser = (email) => {
+    return new Promise(async function (resolve, reject) {
+        try {
+            const response = await fetch('http://localhost:1234/googlekeep/notes/all/' + email);
+            const listOfNotes = await response.json();
+            resolve(listOfNotes);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};

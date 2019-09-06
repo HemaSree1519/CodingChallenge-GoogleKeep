@@ -1,4 +1,5 @@
-import {createNote} from "../noteAPIs";
+import {createNote, getAllNotesOfUser} from "../noteAPIs";
+import {getUserByEmail} from "../userAPIs";
 
 describe('noteAPIs', () => {
     let note;
@@ -33,5 +34,15 @@ describe('noteAPIs', () => {
             expect(response).toEqual(200)
         });
         expect(global.fetch).toHaveBeenCalledWith(...expected)
+    });
+    it('should fetch user with given email', () => {
+        let list = [];
+        global.fetch = jest.fn().mockImplementation(() => {
+            return Promise.resolve({
+                json: () => Promise.resolve(list)
+            });
+        });
+        getAllNotesOfUser("testMail@gmail.com").then();
+        expect(global.fetch).toHaveBeenCalledWith("http://localhost:1234/googlekeep/notes/all/testMail@gmail.com")
     });
 });
