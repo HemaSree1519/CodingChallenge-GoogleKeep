@@ -31,15 +31,9 @@ describe('userAPIs', () => {
         expect(global.fetch).toHaveBeenCalledWith(...expected)
     });
     it('should fetch user with given email', () => {
-        let mockUser = [{
-            userName: "tester",
-            password: "password",
-            email: "testMail@gmail.com",
-            role: "admin"
-        }];
         global.fetch = jest.fn().mockImplementation(() => {
             return Promise.resolve({
-                json: () => Promise.resolve(mockUser)
+                json: () => Promise.resolve(user)
             });
         });
         getUserByEmail("testMail@gmail.com").then();
