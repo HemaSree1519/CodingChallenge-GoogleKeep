@@ -1,7 +1,7 @@
 import React from 'react'
 import {shallow} from 'enzyme'
 import Index from "../index";
-import {areMatchingPasswords} from "../service";
+import {validatePasswords} from "../service";
 
 jest.mock('../service');
 describe('SingUp', () => {
@@ -22,7 +22,7 @@ describe('SingUp', () => {
         wrapper.find('Input[name="password"]').simulate('change', {target: {value: 'password'}});
         wrapper.find('Input[name="rePassword"]').simulate('change', {target: {value: 'password'}});
         wrapper.find('Button').simulate('click');
-        expect(areMatchingPasswords).toHaveBeenCalledTimes(1);
+        expect(validatePasswords).toHaveBeenCalledTimes(1);
     });
     it("should update the state with given values", () => {
         instance.setErrorState(true, "error message");

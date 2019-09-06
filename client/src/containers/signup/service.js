@@ -1,4 +1,5 @@
-export const areMatchingPasswords = (password, rePassword) => {
+export const validatePasswords = (password, rePassword) => {
+    if(password!==''&&rePassword!=='')
     return password === rePassword;
 };
 export const formUserDetails = (email, password) => {

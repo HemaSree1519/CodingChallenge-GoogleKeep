@@ -25,7 +25,9 @@ describe('userAPIs', () => {
                 "headers": {"Accept": "application/json", "Content-Type": "application/json"},
                 "method": "POST"
             }];
-        createUser(user).then(response =>{expect(response).toEqual(200)});
+        createUser(user).then(response => {
+            expect(response).toEqual(200)
+        });
         expect(global.fetch).toHaveBeenCalledWith(...expected)
     })
 });

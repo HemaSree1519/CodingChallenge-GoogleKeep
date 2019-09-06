@@ -1,3 +1,3 @@
-export const areMatchingPasswords = jest.fn((a,b) => {
+export const validatePasswords = jest.fn((a,b) => {
     return a === b;
 });
