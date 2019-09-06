@@ -5,7 +5,7 @@ import WriteNote from "./components/WriteNote";
 import Note from "./components/Note";
 import EditNote from "./components/EditNote";
 import {formNoteDetails, formUpdatedNoteDetails, hadEdited} from "./service";
-import {createNote, getAllNotesOfUser, updateNote} from "../../restService/noteAPIs";
+import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../../restService/noteAPIs";
 import {getUser} from "../../session/UserSession";
 
 export default class Index extends Component {
@@ -36,15 +36,12 @@ export default class Index extends Component {
     };
 
     setEditState = (note) => {
-        console.log(note);
-        console.log("setEditNote");
         this.setState(prevState => ({
             isEditingNote: !prevState.isEditingNote,
             editingNote: note !== '' ? note : [],
             editingNoteContent: note !== '' ? note["content"] : '',
             editingNoteTitle: note !== '' ? note['title'] : ''
         }));
-        console.log(this.state.isEditingNote)
     };
     onEditNoteContent = (editedContent) => {
         this.setState({editingNoteContent: editedContent.target.value})
@@ -54,7 +51,10 @@ export default class Index extends Component {
         this.setState({editingNoteTitle: editedTitle.target.value})
     };
     onWriteToggle = () => {
-        this.setState({isWritingNote: !this.state.isWritingNote, writingNoteTitle: '', writingNoteContent: ''})
+        if (getUser()) {
+            this.setState({isWritingNote: !this.state.isWritingNote, writingNoteTitle: '', writingNoteContent: ''})
+        }
+        else this.setState({message: "Please login to add note"})
     };
     onWriteNoteTitle = (writingNoteTitle) => {
         this.setState({writingNoteTitle: writingNoteTitle.target.value})
@@ -63,6 +63,11 @@ export default class Index extends Component {
         this.setState({writingNoteContent: writeNoteContent.target.value})
     };
     onDelete = () => {
+        deleteNote(this.state.editingNote["email"], this.state.editingNote["id"]).then((reponse) => {
+            if (reponse === 200) {
+                this.getNotes().then()
+            }
+        });
         this.setEditState('')
     };
     onCloseNewNote = () => {
