@@ -4,8 +4,8 @@ import {CardColumns, Input} from "reactstrap";
 import WriteNote from "./components/WriteNote";
 import Note from "./components/Note";
 import EditNote from "./components/EditNote";
-import {formNoteDetails} from "./service";
-import {createNote, getAllNotesOfUser} from "../../restService/noteAPIs";
+import {formNoteDetails, formUpdatedNoteDetails, hadEdited} from "./service";
+import {createNote, getAllNotesOfUser, updateNote} from "../../restService/noteAPIs";
 import {getUser} from "../../session/UserSession";
 
 export default class Index extends Component {
@@ -75,6 +75,17 @@ export default class Index extends Component {
             })
         }
         this.onWriteToggle();
+    };
+    onUpdateNote = () => {
+        if (hadEdited(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent)) {
+            const updatedNote = formUpdatedNoteDetails(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent);
+            updateNote(this.state.editingNote["id"], updatedNote).then((repsonse) => {
+                if (repsonse === 200) {
+                    this.getNotes().then()
+                }
+            });
+        }
+        this.setEditState('')
     };
 
     render() {
