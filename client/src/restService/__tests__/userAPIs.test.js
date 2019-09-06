@@ -1,4 +1,4 @@
-import {createUser} from "../userAPIs";
+import {createUser, getUserByEmail} from "../userAPIs";
 
 describe('userAPIs', () => {
     let user;
@@ -29,5 +29,20 @@ describe('userAPIs', () => {
             expect(response).toEqual(200)
         });
         expect(global.fetch).toHaveBeenCalledWith(...expected)
-    })
+    });
+    it('should fetch user with given email', () => {
+        let mockUser = [{
+            userName: "tester",
+            password: "password",
+            email: "testMail@gmail.com",
+            role: "admin"
+        }];
+        global.fetch = jest.fn().mockImplementation(() => {
+            return Promise.resolve({
+                json: () => Promise.resolve(mockUser)
+            });
+        });
+        getUserByEmail("testMail@gmail.com").then();
+        expect(global.fetch).toHaveBeenCalledWith("http://localhost:1234/googlekeep/users/testMail@gmail.com")
+    });
 });

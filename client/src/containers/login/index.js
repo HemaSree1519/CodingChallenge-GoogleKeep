@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import "./styles.css";
 import {Button, Col, Form, FormGroup, Input} from "reactstrap";
+import {isAuthenticated} from "./service";
+import {ErrorMessages} from "../../utilities/errorMessages";
 import {setUser} from "../../session/UserSession";
 
 let userEmail = '';
@@ -15,13 +17,24 @@ export default class Index extends Component {
         }
     }
 
-    handleLogin = () => {
-        this.props.userHasAuthenticated(true);
-        setUser(userEmail);
-        userEmail = '';
-        userPassword = '';
-        this.props.history.push('/notes');
-
+    handleLogin = async event => {
+        event.preventDefault();
+        try {
+            await isAuthenticated(userEmail, userPassword).then((responce) => {
+                if (responce === true) {
+                    this.props.userHasAuthenticated(true);
+                    setUser(userEmail);
+                    userEmail='';
+                    userPassword='';
+                    this.props.history.push('/notes');
+                }
+                else {
+                    this.setErrorState(true, responce)
+                }
+            });
+        } catch (e) {
+            this.setErrorState(true, ErrorMessages[103])
+        }
     };
     setErrorState = (flag, message) => {
         this.setState({

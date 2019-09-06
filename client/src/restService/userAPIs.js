@@ -1,3 +1,19 @@
+export const getUserByEmail = async (email) => {
+    return new Promise(async function (resolve, reject) {
+        try {
+            const response = await fetch('http://localhost:1234/googlekeep/users/' + email);
+            if (response.status === 200) {
+                resolve(await response.json())
+            }
+            else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e)
+        }
+    });
+};
+
 export const createUser = (user) => {
     return new Promise(async function (resolve, reject) {
         try {
