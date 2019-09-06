@@ -1,4 +1,4 @@
-import {createNote, getAllNotesOfUser, updateNote} from "../noteAPIs";
+import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../noteAPIs";
 
 describe('noteAPIs', () => {
     let note;
@@ -62,6 +62,24 @@ describe('noteAPIs', () => {
                 "method": "PUT"
             }];
         updateNote(1, note).then(response => {
+            expect(response).toEqual(200)
+        });
+        expect(global.fetch).toHaveBeenCalledWith(...expected);
+    });
+    it('should delete note with given email and note id', () => {
+        global.fetch = jest.fn().mockImplementation(() => {
+            return Promise.resolve({
+                status: 200
+            });
+        });
+        let expected = ["http://localhost:1234/googlekeep/notes/testMail@gmail.com/1/delete", {
+            "headers": {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            }, "method": "DELETE"
+        }]
+
+        deleteNote('testMail@gmail.com', 1).then(response => {
             expect(response).toEqual(200)
         });
         expect(global.fetch).toHaveBeenCalledWith(...expected);
