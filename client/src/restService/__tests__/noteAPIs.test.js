@@ -1,5 +1,4 @@
-import {createNote, getAllNotesOfUser} from "../noteAPIs";
-import {getUserByEmail} from "../userAPIs";
+import {createNote, getAllNotesOfUser, updateNote} from "../noteAPIs";
 
 describe('noteAPIs', () => {
     let note;
@@ -35,7 +34,7 @@ describe('noteAPIs', () => {
         });
         expect(global.fetch).toHaveBeenCalledWith(...expected)
     });
-    it('should fetch user with given email', () => {
+    it('should fetch note with given email', () => {
         let list = [];
         global.fetch = jest.fn().mockImplementation(() => {
             return Promise.resolve({
@@ -45,4 +44,26 @@ describe('noteAPIs', () => {
         getAllNotesOfUser("testMail@gmail.com").then();
         expect(global.fetch).toHaveBeenCalledWith("http://localhost:1234/googlekeep/notes/all/testMail@gmail.com")
     });
+    it('should update note with updated details', () => {
+        global.fetch = jest.fn().mockImplementation(() => {
+            return Promise.resolve({
+                status: 200
+            });
+        });
+        let expected = ["http://localhost:1234/googlekeep/notes/1/update",
+            {
+                "body": "{\"id\":1," +
+                    "\"title\":\"TestTitle\"," +
+                    "\"content\":\"This is a testing note\"," +
+                    "\"email\":\"tester@gmail.com\"," +
+                    "\"updatedAt\":null," +
+                    "\"createdAt\":null}",
+                "headers": {"Accept": "application/json", "Content-Type": "application/json"},
+                "method": "PUT"
+            }];
+        updateNote(1, note).then(response => {
+            expect(response).toEqual(200)
+        });
+        expect(global.fetch).toHaveBeenCalledWith(...expected);
+    })
 });
