@@ -4,6 +4,8 @@ import {CardColumns, Input} from "reactstrap";
 import WriteNote from "./components/WriteNote";
 import Note from "./components/Note";
 import EditNote from "./components/EditNote";
+import {formNoteDetails} from "./service";
+import {createNote} from "../../restService/noteAPIs";
 
 export default class Index extends Component {
     constructor(props) {
@@ -52,18 +54,16 @@ export default class Index extends Component {
     };
     onCloseNewNote = () => {
         if (this.state.writingNoteTitle !== '' || this.state.writingNoteContent !== '') {
-            const note = {
-                "email": 'test@mail.com',
-                "title": this.state.writingNoteTitle,
-                "content": this.state.writingNoteContent,
-                "createdAt": new Date(),
-                "updatedAt": new Date(),
-            };
-            let temp = this.state.notes;
-            temp.push(note);
-            this.setState({
-                notes: temp
-            });
+            const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
+            createNote(note).then((response) => {
+                if (response === 200) {
+                    let temp = this.state.notes;
+                    temp.push(note);
+                    this.setState({
+                        notes: temp
+                    })
+                }
+            })
         }
         this.onWriteToggle();
     };

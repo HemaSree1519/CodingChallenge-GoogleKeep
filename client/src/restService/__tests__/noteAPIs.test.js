@@ -18,7 +18,7 @@ describe('noteAPIs', () => {
                 status: 200
             });
         });
-        let expected = ["http://localhost:1235/notesaver/notes/add",
+        let expected = ["http://localhost:1234/googlekeep/notes/add",
             {
                 "body": "{\"id\":1," +
                     "\"title\":\"TestTitle\"," +
