@@ -5,7 +5,8 @@ import WriteNote from "./components/WriteNote";
 import Note from "./components/Note";
 import EditNote from "./components/EditNote";
 import {formNoteDetails} from "./service";
-import {createNote} from "../../restService/noteAPIs";
+import {createNote, getAllNotesOfUser} from "../../restService/noteAPIs";
+import {getUser} from "../../session/UserSession";
 
 export default class Index extends Component {
     constructor(props) {
@@ -13,7 +14,7 @@ export default class Index extends Component {
         this.state = {
             notes: [],
             message: "Get your note saved with Google Keep",
-            isEditingNote:false,
+            isEditingNote: false,
             editingNote: '',
             editingNoteTitle: '',
             editingNoteContent: '',
@@ -22,6 +23,18 @@ export default class Index extends Component {
             writingNoteContent: ''
         }
     }
+
+    componentDidMount() {
+        this.getNotes().then()
+    }
+
+    getNotes = async () => {
+        const email = getUser();
+        await getAllNotesOfUser(email).then((listOfNotes) => {
+            this.setState({notes: listOfNotes})
+        });
+    };
+
     setEditState = (note) => {
         console.log(note);
         console.log("setEditNote");
@@ -57,11 +70,7 @@ export default class Index extends Component {
             const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
             createNote(note).then((response) => {
                 if (response === 200) {
-                    let temp = this.state.notes;
-                    temp.push(note);
-                    this.setState({
-                        notes: temp
-                    })
+                    this.getNotes().then();
                 }
             })
         }
