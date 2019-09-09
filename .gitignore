@@ -45,3 +45,6 @@ out
 application.properties
 /client/node_modules/
 /client/package-lock.json
+/client/.gradle
+/client/build/
+/client!gradle/wrapper/gradle-wrapper.jar

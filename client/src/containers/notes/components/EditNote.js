@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Moment from "moment";
 import {Button, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 
 export default class EditNote extends Component {
@@ -23,7 +24,7 @@ export default class EditNote extends Component {
                     <br/>
                     <div className="footer-container">
                         <Label className="footer-edited-time">
-                            Edited</Label>
+                            Edited {Moment(this.props.childProps.editingNote['updatedAt']).format('lll')}</Label>
                     </div>
                 </ModalBody>
                 <ModalFooter className="modal-footer">
