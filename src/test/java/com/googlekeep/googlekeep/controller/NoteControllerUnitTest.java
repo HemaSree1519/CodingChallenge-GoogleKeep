@@ -123,7 +123,7 @@ public class NoteControllerUnitTest {
         when(noteService.deleteNote((long) 2, "tester@gmail.com"))
                 .thenThrow(new ResourceNotFoundException("Note", "id", "2"));
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/notesaver/notes/tester@gmail.com/2/delete");
+                .delete("/googlekeep/notes/tester@gmail.com/2/delete");
         MvcResult result = mvc.perform(requestBuilder).andReturn();
         assertEquals("",result.getResponse().getContentAsString());
     }
