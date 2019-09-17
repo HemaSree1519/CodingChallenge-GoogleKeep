@@ -31,5 +31,4 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     testCompile 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
     testCompile('org.mockito:mockito-junit-jupiter:2.23.0')
-    compile('org.jasypt:jasypt-spring31:1.9.2')
 }

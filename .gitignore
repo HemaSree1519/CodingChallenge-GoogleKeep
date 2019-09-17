@@ -47,6 +47,7 @@ HELP.md
 
 gradle
 out
+application.properties
 /client/node_modules/
 /client/package-lock.json
 /client/.gradle
