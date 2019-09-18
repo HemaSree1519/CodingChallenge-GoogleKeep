@@ -1,6 +1,5 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import WriteNote from "../components/WriteNote";
 import Index from '../index'
 
 
@@ -12,12 +11,6 @@ describe('notes', () => {
     it('should render 1 <Input />', () => {
 
         expect(wrapper.find('Input').length).toEqual(1);
-    });
-    it('should render <WriteNote />', () => {
-        let input = wrapper.find('Input').at(0);
-        input.simulate('click');
-        expect(wrapper.state().isWritingNote).toEqual(true);
-        expect(wrapper.find('WriteNote').length).toEqual(1);
     });
     it('should render a message when no notes to display', () => {
 

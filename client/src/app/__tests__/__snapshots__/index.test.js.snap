@@ -1,7 +1,7 @@
-exports[`AppliedRoute should render correctly 1`] = `
+exports[`App should render correctly 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <Unknown />,
+  Symbol(enzyme.__unrendered__): <withRouter(Index) />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "checkPropTypes": [Function],
@@ -16,10 +16,10 @@ ShallowWrapper {
     "key": undefined,
     "nodeType": "class",
     "props": Object {
-      "render": [Function],
+      "children": [Function],
     },
     "ref": null,
-    "rendered": null,
+    "rendered": [Function],
     "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
@@ -28,10 +28,10 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "class",
       "props": Object {
-        "render": [Function],
+        "children": [Function],
       },
       "ref": null,
-      "rendered": null,
+      "rendered": [Function],
       "type": [Function],
     },
   ],

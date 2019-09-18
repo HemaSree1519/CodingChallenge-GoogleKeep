@@ -1,4 +1,5 @@
 import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../noteAPIs";
+import ip from 'ip'
 
 describe('noteAPIs', () => {
     let note;
@@ -18,7 +19,7 @@ describe('noteAPIs', () => {
                 status: 200
             });
         });
-        let expected = ["http://localhost:1234/googlekeep/notes/add",
+        let expected = ["http://"+ip.address()+":1234/googlekeep/notes/add",
             {
                 "body": "{\"id\":1," +
                     "\"title\":\"TestTitle\"," +
@@ -42,7 +43,7 @@ describe('noteAPIs', () => {
             });
         });
         getAllNotesOfUser("testMail@gmail.com").then();
-        expect(global.fetch).toHaveBeenCalledWith("http://localhost:1234/googlekeep/notes/all/testMail@gmail.com")
+        expect(global.fetch).toHaveBeenCalledWith("http://"+ip.address()+":1234/googlekeep/notes/all/testMail@gmail.com")
     });
     it('should update note with updated details', () => {
         global.fetch = jest.fn().mockImplementation(() => {
@@ -50,7 +51,7 @@ describe('noteAPIs', () => {
                 status: 200
             });
         });
-        let expected = ["http://localhost:1234/googlekeep/notes/1/update",
+        let expected = ["http://"+ip.address()+":1234/googlekeep/notes/1/update",
             {
                 "body": "{\"id\":1," +
                     "\"title\":\"TestTitle\"," +
@@ -72,7 +73,7 @@ describe('noteAPIs', () => {
                 status: 200
             });
         });
-        let expected = ["http://localhost:1234/googlekeep/notes/testMail@gmail.com/1/delete", {
+        let expected = ["http://"+ip.address()+":1234/googlekeep/notes/testMail@gmail.com/1/delete", {
             "headers": {
                 "Accept": "application/json",
                 "Content-Type": "application/json"

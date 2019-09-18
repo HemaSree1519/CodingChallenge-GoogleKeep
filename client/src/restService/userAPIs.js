@@ -1,7 +1,8 @@
+import ip from 'ip'
 export const getUserByEmail = async (email) => {
     return new Promise(async function (resolve, reject) {
         try {
-            const response = await fetch('http://localhost:1234/googlekeep/users/' + email);
+            const response = await fetch('http://'+ip.address()+':1234/googlekeep/users/' + email);
             if (response.status === 200) {
                 resolve(await response.json())
             }
@@ -17,7 +18,7 @@ export const getUserByEmail = async (email) => {
 export const createUser = (user) => {
     return new Promise(async function (resolve, reject) {
         try {
-            const response = await fetch('http://localhost:1234/googlekeep/users/add', {
+            const response = await fetch('http://'+ip.address()+':1234/googlekeep/users/add', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
