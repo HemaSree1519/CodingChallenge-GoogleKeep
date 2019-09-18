@@ -38,7 +38,9 @@
       - docker.io
       - docker-compose
     - name: Copy database config file
-      copy: src="/home/hkothari/Desktop/application.properties" dest={{ release_path }}/src/main/resources/application.properties
+      copy: src="application.properties" dest={{ release_path }}/src/main/resources/application.properties
+    - name: Copy AWS server config file
+      copy: src="client/src/utilities/server_AWS.js" dest={{ release_path }}/client/src/utilities/server_localhost.js
     - name: Run docker compose
       docker_service:
         project_src: "{{ release_path }}"

@@ -53,6 +53,7 @@ application.properties
 /client/.gradle
 /client/build/
 /client!gradle/wrapper/gradle-wrapper.jar
+/client/src/utilities/server_AWS.js
 
 ### Terraform ###
 # Compiled files
@@ -61,3 +62,6 @@ application.properties
 
 # Module directory
 /aws/terraform/EC2/.terraform/
+
+### Ansible ###
+/aws/ansible/deploy/*.retry
