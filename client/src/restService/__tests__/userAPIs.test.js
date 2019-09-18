@@ -1,5 +1,5 @@
 import {createUser, getUserByEmail} from "../userAPIs";
-import ip from 'ip'
+import {ip} from "../../utilities/server_localhost";
 describe('userAPIs', () => {
     let user;
     beforeEach(() => {
@@ -16,7 +16,7 @@ describe('userAPIs', () => {
                 status: 200
             });
         });
-        let expected = ["http://"+ip.address()+":1234/googlekeep/users/add",
+        let expected = ["http://"+ip[0]+":1234/googlekeep/users/add",
             {
                 "body": "{\"userName\":\"tester\"," +
                     "\"password\":\"password\"," +
@@ -37,6 +37,6 @@ describe('userAPIs', () => {
             });
         });
         getUserByEmail("testMail@gmail.com").then();
-        expect(global.fetch).toHaveBeenCalledWith("http://"+ip.address()+":1234/googlekeep/users/testMail@gmail.com")
+        expect(global.fetch).toHaveBeenCalledWith("http://"+ip[0]+":1234/googlekeep/users/testMail@gmail.com")
     });
 });
