@@ -1,0 +1,46 @@
+---
+- hosts: prod
+  become: yes
+  become_user: root
+  become_method: sudo
+  vars:
+    - project_path: /var/webapp/google_keep
+    - home_dir: /home/ubuntu
+  tasks:
+    - name: Set release variable
+      set_fact:
+        release_path: "{{ project_path }}/releases/{{ lookup('pipe','date +%Y%m%d%H%M%S') }}"
+        current_path: "{{ project_path }}/current"
+    - name: Retrieve current release folder
+      command: readlink -f current
+      register: current_release_path
+      ignore_errors: yes
+      args:
+        chdir: "{{ project_path }}"
+    - name: Create directory for new release
+      file:
+        dest={{ release_path }}
+        mode=0755
+        recurse=yes
+        state=directory
+    - name: Copy Private Key
+      copy: src="/home/hkothari/.ssh/id_rsa" dest={{home_dir}} mode=0600
+    - name: Clone the repository
+      git: repo="https://github.com/HemaSree1519/CodingChallenge-GoogleKeep.git" dest={{ release_path }} update=yes force=yes accept_hostkey=yes key_file={{home_dir}}/id_rsa
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: dist
+        update_cache: yes
+        cache_valid_time: 86400
+    - name: Install docker
+      apt: name={{item}} state=installed
+      with_items:
+      - docker.io
+      - docker-compose
+    - name: Copy database config file
+      copy: src="/home/hkothari/Desktop/application.properties" dest={{ release_path }}/src/main/resources/application.properties
+    - name: Run docker compose
+      docker_service:
+        project_src: "{{ release_path }}"
+      restarted: yes
+
