@@ -53,3 +53,11 @@ application.properties
 /client/.gradle
 /client/build/
 /client!gradle/wrapper/gradle-wrapper.jar
+
+### Terraform ###
+# Compiled files
+/aws/terraform/EC2/*.tfstate
+/aws/terraform/EC2/*.tfstate.backup
+
+# Module directory
+/aws/terraform/EC2/.terraform/
