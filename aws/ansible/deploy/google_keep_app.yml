@@ -28,16 +28,6 @@
       copy: src="/home/hkothari/.ssh/id_rsa" dest={{home_dir}} mode=0600
     - name: Clone the repository
       git: repo="https://github.com/HemaSree1519/CodingChallenge-GoogleKeep.git" dest={{ release_path }} update=yes force=yes accept_hostkey=yes key_file={{home_dir}}/id_rsa
-    - name: Update and upgrade apt packages
-      apt:
-        upgrade: dist
-        update_cache: yes
-        cache_valid_time: 86400
-    - name: Install docker
-      apt: name={{item}} state=installed
-      with_items:
-      - docker.io
-      - docker-compose
     - name: Copy database config file
       copy: src={{ local_project_dir }}/src/main/resources/application.properties dest={{ release_path }}/src/main/resources/application.properties
     - name: Copy AWS server config file
