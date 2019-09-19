@@ -1,4 +1,4 @@
-import {ip} from '../utilities/server_localhost'
+import {ip} from '../utilities/server'
 export const createNote = (note) => {
     return new Promise(async function (resolve, reject) {
         try {

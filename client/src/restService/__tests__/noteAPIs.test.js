@@ -1,5 +1,5 @@
 import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../noteAPIs";
-import {ip} from "../../utilities/server_localhost";
+import {ip} from "../../utilities/server";
 describe('noteAPIs', () => {
     let note;
     beforeEach(() => {

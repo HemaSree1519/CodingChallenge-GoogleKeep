@@ -1,4 +1,4 @@
-import {ip} from "../utilities/server_localhost";
+import {ip} from "../utilities/server";
 
 export const getUserByEmail = async (email) => {
     return new Promise(async function (resolve, reject) {

@@ -2,16 +2,13 @@
   become: yes
   become_user: root
   become_method: sudo
-  tasks:
-    - name: Update and upgrade apt packages
-      apt:
-        upgrade: dist
-        update_cache: yes
-        cache_valid_time: 86400 #One day
-    - name: Install packages
-      apt: name={{item}} state=installed
-      with_items:
-          - default-jdk
-          - python-pip
-          - docker.io
-          - docker-compose
+  gather_facts: False
+  pre_tasks:
+  - name: Install python for Ansible
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    register: output
+  - name: Install docker
+    apt: name={{item}} state=installed
+    with_items:
+    - docker.io
+    - docker-compose

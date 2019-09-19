@@ -6,6 +6,7 @@
   vars:
     - project_path: /var/webapp/google_keep
     - home_dir: /home/ubuntu
+    - local_project_dir: /home/hkothari/Desktop/Muruga/Everest/GoogleKeep
   tasks:
     - name: Set release variable
       set_fact:
@@ -38,9 +39,9 @@
       - docker.io
       - docker-compose
     - name: Copy database config file
-      copy: src="application.properties" dest={{ release_path }}/src/main/resources/application.properties
+      copy: src={{ local_project_dir }}/src/main/resources/application.properties dest={{ release_path }}/src/main/resources/application.properties
     - name: Copy AWS server config file
-      copy: src="client/src/utilities/server_AWS.js" dest={{ release_path }}/client/src/utilities/server_localhost.js
+      copy: src={{ local_project_dir }}/client/src/utilities/server_AWS.js dest={{ release_path }}/client/src/utilities/server.js
     - name: Run docker compose
       docker_service:
         project_src: "{{ release_path }}"

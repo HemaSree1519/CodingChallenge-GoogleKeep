@@ -1,5 +1,5 @@
 import {createUser, getUserByEmail} from "../userAPIs";
-import {ip} from "../../utilities/server_localhost";
+import {ip} from "../../utilities/server";
 describe('userAPIs', () => {
     let user;
     beforeEach(() => {
