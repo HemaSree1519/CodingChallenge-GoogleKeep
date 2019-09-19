@@ -1,6 +1,6 @@
 # How to setup
 
-###Tech-Stack
+### Tech-Stack
 1) Terraform
 2) Ansible
 3) Spring boot
@@ -22,7 +22,7 @@ Terraform is used to define and provision AWS infrastructure required for google
 **Note**: Please note ***public_ip*** and ***endpoint*** resulted from output of terraform.
 
 #### Ansible
-Ansible is user for google keep application deployment.
+Ansible is used for google keep application deployment into AWS.
 
 - Change directory to /aws/ansible/
 - Run ansible-vault edit deploy/hosts
