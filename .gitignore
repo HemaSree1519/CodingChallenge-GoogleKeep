@@ -54,6 +54,7 @@ application.properties
 /client/build/
 /client!gradle/wrapper/gradle-wrapper.jar
 /client/src/utilities/server_AWS.js
+load-balancer/nginx.conf_temp
 
 ### Terraform ###
 # Compiled files
