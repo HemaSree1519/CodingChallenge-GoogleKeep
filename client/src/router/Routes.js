@@ -2,10 +2,10 @@ import React from "react";
 import {Route, Switch} from "react-router-dom";
 import AppliedRoute from "./AppliedRoute";
 import SignUp from '../containers/signup/index'
-import Home from '../containers/home/index'
 import Login from '../containers/login/index'
-import NotesBoard from '../containers/notes/index'
-import PageNotFound from '../containers/pageNotFound/index'
+import NotesBoard from '../containers/note/index'
+import Home from '../components/homeMessage/index'
+import PageNotFound from '../components/pageNotFound/index'
 
 export default ({childProps}) =>
     <Switch>

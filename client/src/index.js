@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
-import App from "./app/index";
+import Home from "./containers/home/index";
 
 ReactDOM.render(
     <Router>
-        <App/>
+        <Home/>
     </Router>,
     document.getElementById("root")
 );
