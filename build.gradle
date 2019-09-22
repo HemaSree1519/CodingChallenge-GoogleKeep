@@ -14,6 +14,20 @@ configurations {
         extendsFrom developmentOnly
     }
 }
+allprojects {
+    apply plugin: 'idea'
+    idea {
+        module {
+            outputDir file('build/classes/main')
+            testOutputDir file('build/classes/test')
+        }
+    }
+    if(project.convention.findPlugin(JavaPluginConvention)) {
+        // Change the output directory for the main and test source sets back to the old path
+        sourceSets.main.output.classesDir = new File(buildDir, "classes/main")
+        sourceSets.test.output.classesDir = new File(buildDir, "classes/test")
+    }
+}
 
 repositories {
     mavenCentral()
@@ -29,6 +43,6 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testCompile 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
-    testCompile('org.mockito:mockito-junit-jupiter:2.23.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+    testImplementation('org.mockito:mockito-junit-jupiter:2.23.0')
 }
