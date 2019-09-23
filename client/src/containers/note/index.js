@@ -7,6 +7,7 @@ import EditNote from "../../components/editNote/EditNote";
 import {formNoteDetails, formUpdatedNoteDetails, hadEdited} from "./service";
 import {createNote, deleteNote, getAllNotesOfUser, updateNote} from "../../restService/noteAPIs";
 import {getUser} from "../../session/UserSession";
+import {ErrorMessages} from "../../utilities/errorMessages";
 
 export default class Index extends Component {
     constructor(props) {
@@ -20,19 +21,27 @@ export default class Index extends Component {
             editingNoteContent: '',
             isWritingNote: false,
             writingNoteTitle: '',
-            writingNoteContent: ''
+            writingNoteContent: '',
+            isError: false,
+            errorMessage: ''
         }
     }
 
     componentDidMount() {
-        this.getNotes().then()
+        this.getNotes().catch((e)=>{
+            this.setErrorState(true, ErrorMessages[103])
+        })
     }
 
     getNotes = async () => {
         const email = getUser();
-        await getAllNotesOfUser(email).then((listOfNotes) => {
+        try{
+            await getAllNotesOfUser(email).then((listOfNotes) => {
             this.setState({notes: listOfNotes})
         });
+        }catch (e) {
+            throw e;
+        }
     };
 
     setEditState = (note) => {
@@ -62,35 +71,59 @@ export default class Index extends Component {
     onWriteNoteContent = (writeNoteContent) => {
         this.setState({writingNoteContent: writeNoteContent.target.value})
     };
-    onDelete = () => {
-        deleteNote(this.state.editingNote["email"], this.state.editingNote["id"]).then((reponse) => {
-            if (reponse === 200) {
-                this.getNotes().then()
-            }
-        });
+    onDelete = async () => {
+        try {
+            await deleteNote(this.state.editingNote["email"], this.state.editingNote["id"]).then((reponse) => {
+                if (reponse === 200) {
+                    this.getNotes().catch((e) => {
+                        this.setErrorState(true, ErrorMessages[103])
+                    })
+                }
+            });
+        } catch (e) {
+            this.setErrorState(true, ErrorMessages[103])
+        }
         this.setEditState('')
     };
-    onCloseNewNote = () => {
+    onCloseNewNote = async () => {
         if (this.state.writingNoteTitle !== '' || this.state.writingNoteContent !== '') {
             const note = formNoteDetails(this.state.writingNoteTitle, this.state.writingNoteContent);
-            createNote(note).then((response) => {
-                if (response === 200) {
-                    this.getNotes().then();
-                }
-            })
+            try {
+                await createNote(note).then((response) => {
+                    if (response === 200) {
+                        this.getNotes().catch((e) => {
+                            this.setErrorState(true, ErrorMessages[103])
+                        })
+                    }
+                })
+            } catch (e) {
+                this.setErrorState(true, ErrorMessages[103])
+            }
         }
         this.onWriteToggle();
     };
-    onUpdateNote = () => {
+    onUpdateNote = async () => {
         if (hadEdited(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent)) {
             const updatedNote = formUpdatedNoteDetails(this.state.editingNote, this.state.editingNoteTitle, this.state.editingNoteContent);
-            updateNote(this.state.editingNote["id"], updatedNote).then((repsonse) => {
-                if (repsonse === 200) {
-                    this.getNotes().then()
-                }
-            });
+            try {
+                await updateNote(this.state.editingNote["id"], updatedNote).then((repsonse) => {
+                    if (repsonse === 200) {
+                        this.getNotes().catch((e) => {
+                            this.setErrorState(true, ErrorMessages[103])
+                        })
+                    }
+                });
+            } catch (e) {
+                this.setErrorState(true, ErrorMessages[103])
+            }
         }
         this.setEditState('')
+    };
+    setErrorState = (flag, message) => {
+        this.setState({
+            isError: flag,
+            errorMessage: message
+        });
     };
 
     render() {
@@ -113,6 +146,7 @@ export default class Index extends Component {
         };
         return (
             <div className="dash-board">
+                {this.state.isError && <p className="error">{this.state.errorMessage}</p>}
                 <div className="write-note">
                     {!this.state.isWritingNote ?
                         <Input className="note-input" type="text" placeholder="Write a note..." onClick={() => {

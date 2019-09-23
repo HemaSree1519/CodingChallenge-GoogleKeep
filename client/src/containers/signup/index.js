@@ -19,7 +19,6 @@ export default class Index extends Component {
     }
 
     handleSignUp = async () => {
-        // event.preventDefault();
         try {
             if (validatePasswords(userPassword, userReEnteredPassword)) {
                 await createUser(formUserDetails(userEmail, userPassword)).then((response) => {
