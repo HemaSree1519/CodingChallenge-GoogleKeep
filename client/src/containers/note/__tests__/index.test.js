@@ -34,5 +34,9 @@ describe('notes', () => {
     it('should render editing note when note is being edited',()=>{
         wrapper.setState({isEditingNote:true});
         expect(wrapper.find('EditNote').length).toEqual(1);
+    });
+    it('should render error message when some rejection happened',()=>{
+        wrapper.setState({isError:true});
+        expect(wrapper.find('p').length).toEqual(1);
     })
 });
