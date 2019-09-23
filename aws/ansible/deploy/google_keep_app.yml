@@ -6,7 +6,7 @@
   vars:
     - project_path: /var/webapp/google_keep
     - home_dir: /home/ubuntu
-    - local_project_dir: /home/hkothari/Desktop/Muruga/Everest/GoogleKeep
+    - local_project_dir: /home/hkothari/Desktop/Challenges/Everest/GoogleKeep
   tasks:
     - name: Set release variable
       set_fact:
