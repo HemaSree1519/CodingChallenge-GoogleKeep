@@ -48,6 +48,6 @@ resource "aws_instance" "web_server" {
     "${aws_security_group.google-keep.name}"]
   key_name = "GoogleKeep"
   tags = {
-    Name = "google-keep"
+    Name = "google-keep_instance"
   }
 }

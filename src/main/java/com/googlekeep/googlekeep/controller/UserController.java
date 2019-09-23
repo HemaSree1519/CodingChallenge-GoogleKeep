@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = "http://54.169.9.20")
 @RestController
 @RequestMapping("/googlekeep")
 public class UserController {
