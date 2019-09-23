@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import "./styles.css";
-import {Button, Col, Form, FormGroup, Input} from "reactstrap";
+import "../../components/signup/styles.css";
 import {validatePasswords, formUserDetails} from "./service";
 import {createUser} from "../../restService/userAPIs";
 import {setUser} from "../../session/UserSession";
 import {ErrorMessages} from "../../utilities/errorMessages";
+import SignUp from "../../components/signup/SignUp";
 
 let userEmail = '';
 let userPassword = '';
@@ -17,7 +17,6 @@ export default class Index extends Component {
             errorMessage: ''
         }
     }
-
     handleSignUp = async () => {
         try {
             if (validatePasswords(userPassword, userReEnteredPassword)) {
@@ -68,28 +67,16 @@ export default class Index extends Component {
     };
 
     render() {
+        const props = {
+            errorMessage: this.state.errorMessage,
+            isError: this.state.isError,
+            onEmail: this.onEmail,
+            onPassword: this.onPassword,
+            onReEnteredPassword:this.onReEnteredPassword,
+            handleSignUp: this.handleSignUp
+        };
         return (
-            <Form>
-                {this.state.isError && <p className="error">{this.state.errorMessage}</p>}
-                <Col>
-                    <FormGroup>
-                        <Input type="email" name="email" id="exampleEmail" placeholder="example@gmail.com"
-                               onChange={this.onEmail}/>
-                    </FormGroup>
-                </Col>
-                <Col>
-                    <FormGroup>
-                        <Input type="password" name="password" placeholder="Password" onChange={this.onPassword}/>
-                    </FormGroup>
-                </Col>
-                <Col>
-                    <FormGroup>
-                        <Input type="password" name="rePassword" placeholder="Re-Enter Password"
-                               onChange={this.onReEnteredPassword}/>
-                    </FormGroup>
-                </Col>
-                <Button onClick={this.handleSignUp}>SignUp</Button>
-            </Form>
+            <SignUp childProps={props}/>
         );
     }
 }

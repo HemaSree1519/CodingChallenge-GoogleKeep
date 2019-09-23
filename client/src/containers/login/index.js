@@ -1,9 +1,9 @@
 import React, {Component} from "react";
-import "./styles.css";
-import {Button, Col, Form, FormGroup, Input} from "reactstrap";
+import "../../components/login/styles.css";
 import {isAuthenticated} from "./service";
 import {ErrorMessages} from "../../utilities/errorMessages";
 import {setUser} from "../../session/UserSession";
+import Login from "../../components/login/Login";
 
 let userEmail = '';
 let userPassword = '';
@@ -24,8 +24,8 @@ export default class Index extends Component {
                 if (responce === true) {
                     this.props.userHasAuthenticated(true);
                     setUser(userEmail);
-                    userEmail='';
-                    userPassword='';
+                    userEmail = '';
+                    userPassword = '';
                     this.props.history.push('/notes');
                 }
                 else {
@@ -53,21 +53,15 @@ export default class Index extends Component {
     };
 
     render() {
+        const props = {
+            errorMessage: this.state.errorMessage,
+            isError: this.state.isError,
+            onEmail: this.onEmail,
+            onPassword: this.onPassword,
+            handleLogin: this.handleLogin
+        };
         return (
-            <Form>
-                {this.state.isError && <p className="error">{this.state.errorMessage}</p>}
-                <Col>
-                    <FormGroup>
-                        <Input type="email" name="email" placeholder="example@gmail.com" onChange={this.onEmail}/>
-                    </FormGroup>
-                </Col>
-                <Col>
-                    <FormGroup>
-                        <Input type="password" name="password" placeholder="Password" onChange={this.onPassword}/>
-                    </FormGroup>
-                </Col>
-                <Button onClick={this.handleLogin}>Login</Button>
-            </Form>
+            <Login childProps={props}/>
         );
     }
 }

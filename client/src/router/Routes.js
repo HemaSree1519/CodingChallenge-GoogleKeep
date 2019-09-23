@@ -4,8 +4,8 @@ import AppliedRoute from "./AppliedRoute";
 import SignUp from '../containers/signup/index'
 import Login from '../containers/login/index'
 import NotesBoard from '../containers/note/index'
-import Home from '../components/homeMessage/index'
-import PageNotFound from '../components/pageNotFound/index'
+import Home from '../components/homeMessage/HomeMessage'
+import PageNotFound from '../components/pageNotFound/PageNotFound'
 
 export default ({childProps}) =>
     <Switch>

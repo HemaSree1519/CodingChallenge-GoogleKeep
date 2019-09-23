@@ -1,20 +1,17 @@
 import React from 'react'
 import {shallow} from 'enzyme'
-import Index from "../../login";
+import Index from "../index";
 
 describe('Login',()=>{
+    let props;
     let wrapper;
     let instance;
     beforeEach(()=>{
-        wrapper = shallow(<Index/>);
+        wrapper = shallow(<Index />);
         instance = wrapper.instance();
     });
    it('should render a login form',()=>{
-       expect(wrapper.find('Form').length).toEqual(1);
-       expect(wrapper.find('Col').length).toEqual(2);
-       expect(wrapper.find('Input').length).toEqual(2);
-       expect(wrapper.find('FormGroup').length).toEqual(2);
-       expect(wrapper.find('Button').length).toEqual(1);
+       expect(wrapper.find('Login').length).toEqual(1);
    });
     it("should update the state with given values", () => {
         instance.setErrorState(true, "error message");
